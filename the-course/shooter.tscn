@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://doy7an3pkyq7w"]
+
+[ext_resource type="Script" path="res://playercontroller.gd" id="1_w8c76"]
+[ext_resource type="PackedScene" uid="uid://dcn4soippejj5" path="res://bullet.tscn" id="2_54poy"]
+[ext_resource type="Texture2D" uid="uid://v4ts3by1d30w" path="res://assets/PNG/Sprites/Astronauts/spaceAstronauts_006.png" id="2_jaljd"]
+[ext_resource type="Script" path="res://spawner.gd" id="4_rk3m0"]
+[ext_resource type="PackedScene" uid="uid://bwi6lmhwtpkeh" path="res://block.tscn" id="5_nhfrs"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("bullet_spawn")]
+position = Vector2(550, 372)
+script = ExtResource("1_w8c76")
+bullet_scene = ExtResource("2_54poy")
+bullet_spawn = NodePath("ShootPoint")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharacterBody2D"]
+position = Vector2(-0.0999756, 7.3)
+rotation = 1.5708
+build_mode = 1
+polygon = PackedVector2Array(2, -14, 0, -20, -6, -22, -12, -21, -16, -16, -22, -13, -25, -2, -25, 2, -23, 9, -23, 12, -15, 15, -15, 19, -12, 21, 0, 21, 10, 18, 12, 15, 24, 15, 25, 5, 8, 4, 6, 6, 6, -3, 3, -8)
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(-0.0999756, 7.3)
+rotation = 1.5708
+texture = ExtResource("2_jaljd")
+
+[node name="ShootPoint" type="Node2D" parent="CharacterBody2D"]
+position = Vector2(-10, 56)
+rotation = 3.14159
+
+[node name="Timer" type="Timer" parent="CharacterBody2D"]
+wait_time = 0.1
+one_shot = true
+
+[node name="Spawner" type="Node2D" parent="."]
+script = ExtResource("4_rk3m0")
+thing = ExtResource("5_nhfrs")
+
+[connection signal="timeout" from="CharacterBody2D/Timer" to="CharacterBody2D" method="_on_timer_timeout"]

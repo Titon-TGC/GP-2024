@@ -1,12 +1,15 @@
 extends Node2D
 
-func _ready():
-	scale = Vector2.ZERO
-	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(self, "scale", Vector2.ONE, 0.5)
+@export var thing:PackedScene
 
-	# tween.play("opacity", 1.0, 0.0, 2.0)
-
-
-func _on_input_event(viewport, event, shape_idx):
-	pass # Replace with function body.
+func _input(event):	
+	if event is InputEventMouseButton and event.pressed:	
+		var new_thing = thing.instantiate()
+		new_thing.global_position = event.global_position
+		new_thing.name = "block " + str(event)
+		get_tree().get_root().add_child(new_thing) 
+		
+		## scale = Vector2.ZERO
+		##var tween = create_tween().set_trans(Tween.TRANS_CIRC)
+		##tween.tween_property($"../block", "global_position", event.position, 1.0)
+	pass

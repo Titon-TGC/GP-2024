@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dum0vq7fy15st"]
+[gd_scene load_steps=13 format=3 uid="uid://dum0vq7fy15st"]
 
 [ext_resource type="Script" path="res://root1.gd" id="1_027t5"]
 [ext_resource type="FontFile" uid="uid://0jk2p2kfmllu" path="res://fonts/Hyperspace Bold.otf" id="2_601f3"]
@@ -13,6 +13,9 @@
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_m7bvt"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_7xkkn"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_dp5i3"]
+distance = -726.0
 
 [node name="root" type="Node2D"]
 script = ExtResource("1_027t5")
@@ -77,5 +80,11 @@ offset_bottom = 50.0
 text = "Click the screen to create things to shoot"
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(480, 27)
+shape = SubResource("WorldBoundaryShape2D_dp5i3")
 
 [connection signal="timeout" from="player/Timer" to="player" method="_on_timer_timeout"]

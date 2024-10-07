@@ -1,37 +1,34 @@
-extends RigidBody2D
-
-@export var power:float = 0
-@export var rot_power:float = 360
+extends CharacterBody2D
 
 @export var bullet_scene:PackedScene
 @export var bullet_spawn:Node2D
 
-
-
-var f
+const SPEED = 500.0
+const JUMP_VELOCITY = -400.0
 
 var can_fire = true;
+
+const TURN_RATE = 180
 
 func _ready():
 	# bullet = load("res://bullet.tscn")
 	# bullet_spawn = get_node("shoot_point")
 	
 	pass
-	
+
 func _physics_process(delta):
 	
 	var r = Input.get_axis("turn_left", "turn_right")
-	apply_torque(rot_power * r)
+
+	var rot = deg_to_rad(r * TURN_RATE * delta)
+	rotate(rot)
 	
-	f = Input.get_axis("move_backwards", "move_forwards")
+	var f = Input.get_axis("move_backwards", "move_forwards")
+
+	var vel = transform.y * f * SPEED
+	velocity = vel
 	
-	var force = power * -transform.y * f
-	# DebugDraw2D.set_text("Force", force)
-	if (force.length() > 0):
-		apply_central_force(force)
-		pass
-	# print("right: " + str(transform.x))
-	# print("up:" + str(transform.y))
+	move_and_slide()
 	
 	if Input.is_action_pressed("fire") and can_fire:
 		var b = bullet_scene.instantiate()
