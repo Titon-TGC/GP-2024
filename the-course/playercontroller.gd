@@ -2,9 +2,9 @@ extends CharacterBody2D
 
 @export var bullet_scene:PackedScene
 @export var bullet_spawn:Node2D
+var Mouse_Position
 
-const SPEED = 500.0
-const JUMP_VELOCITY = -400.0
+const SPEED = 10000.0
 
 var can_fire = true;
 
@@ -18,19 +18,17 @@ func _ready():
 
 func _physics_process(delta):
 	
-	var r = Input.get_axis("turn_left", "turn_right")
-
-	var rot = deg_to_rad(r * TURN_RATE * delta)
-	rotate(rot)
-	
 	var f = Input.get_axis("move_backwards", "move_forwards")
-
-	var vel = transform.y * f * SPEED
+	
+	#var r = Input.get_axis("turn_left", "turn_right")
+	
+	var vel = transform.x * f * SPEED * delta
+	#var vel2 = transform.y * r * SPEED
 	velocity = vel
 	
 	move_and_slide()
 	
-	if Input.is_action_pressed("fire") and can_fire:
+	if Input.is_action_just_pressed("fire") and can_fire:
 		var b = bullet_scene.instantiate()
 		b.global_position = bullet_spawn.global_position
 		b.global_rotation = bullet_spawn.global_rotation
@@ -40,6 +38,11 @@ func _physics_process(delta):
 	
 	pass
 	
+func _process(delta):
+	Mouse_Position = get_local_mouse_position()
+	rotation += Mouse_Position.angle()
+	
+	pass
 
 func _on_timer_timeout():
 	can_fire = true

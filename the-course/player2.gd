@@ -2,14 +2,9 @@ extends RigidBody2D
 
 @export var power:float = 0
 @export var rot_power:float = 360
-
 @export var bullet_scene:PackedScene
 @export var bullet_spawn:Node2D
-
-
-
 var f
-
 var can_fire = true;
 
 func _ready():
