@@ -1,0 +1,117 @@
+[gd_scene load_steps=9 format=3 uid="uid://0230s2ynk0wb"]
+
+[ext_resource type="Script" path="res://playercontroller.gd" id="1_w8c76"]
+[ext_resource type="PackedScene" uid="uid://dcn4soippejj5" path="res://bullet.tscn" id="2_54poy"]
+[ext_resource type="Texture2D" uid="uid://v4ts3by1d30w" path="res://assets/PNG/Sprites/Astronauts/spaceAstronauts_006.png" id="2_jaljd"]
+[ext_resource type="Script" path="res://spawner.gd" id="4_rk3m0"]
+[ext_resource type="PackedScene" uid="uid://bwi6lmhwtpkeh" path="res://block.tscn" id="5_nhfrs"]
+[ext_resource type="Texture2D" uid="uid://c844yfbd26ea8" path="res://sprites/bug.png" id="6_xfbxg"]
+[ext_resource type="Script" path="res://enemy.gd" id="7_xu6n5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nagv3"]
+radius = 19.0
+height = 38.0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("bullet_spawn") groups=["player"]]
+position = Vector2(550, 372)
+script = ExtResource("1_w8c76")
+bullet_scene = ExtResource("2_54poy")
+bullet_spawn = NodePath("ShootPoint")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharacterBody2D"]
+position = Vector2(6.73, 0)
+build_mode = 1
+polygon = PackedVector2Array(2, -14, 0, -20, -6, -22, -12, -21, -16, -16, -22, -13, -25, -2, -25, 2, -23, 9, -23, 12, -15, 15, -15, 19, -12, 21, 0, 21, 10, 18, 12, 15, 24, 15, 25, 5, 8, 4, 6, 6, 6, -3, 3, -8)
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(6.73, 0)
+texture = ExtResource("2_jaljd")
+
+[node name="ShootPoint" type="Node2D" parent="CharacterBody2D"]
+position = Vector2(37, 10)
+rotation = 1.5708
+
+[node name="Timer" type="Timer" parent="CharacterBody2D"]
+wait_time = 0.1
+one_shot = true
+autostart = true
+
+[node name="Spawner" type="Node2D" parent="."]
+script = ExtResource("4_rk3m0")
+thing = ExtResource("5_nhfrs")
+
+[node name="Enemy" type="CharacterBody2D" parent="." node_paths=PackedStringArray("player")]
+position = Vector2(177, 103)
+script = ExtResource("7_xu6n5")
+player = NodePath("../CharacterBody2D")
+
+[node name="Enemy" type="Sprite2D" parent="Enemy"]
+scale = Vector2(1.18717, 1.18717)
+texture = ExtResource("6_xfbxg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+shape = SubResource("CapsuleShape2D_nagv3")
+
+[node name="Enemy2" type="CharacterBody2D" parent="." node_paths=PackedStringArray("player")]
+position = Vector2(852, 114)
+script = ExtResource("7_xu6n5")
+player = NodePath("../CharacterBody2D")
+
+[node name="Enemy" type="Sprite2D" parent="Enemy2"]
+scale = Vector2(1.18717, 1.18717)
+texture = ExtResource("6_xfbxg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2"]
+shape = SubResource("CapsuleShape2D_nagv3")
+
+[node name="Enemy3" type="CharacterBody2D" parent="." node_paths=PackedStringArray("player")]
+position = Vector2(556, 142)
+script = ExtResource("7_xu6n5")
+player = NodePath("../CharacterBody2D")
+
+[node name="Enemy" type="Sprite2D" parent="Enemy3"]
+scale = Vector2(1.18717, 1.18717)
+texture = ExtResource("6_xfbxg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy3"]
+shape = SubResource("CapsuleShape2D_nagv3")
+
+[node name="Enemy4" type="CharacterBody2D" parent="." node_paths=PackedStringArray("player")]
+position = Vector2(221, 550)
+script = ExtResource("7_xu6n5")
+player = NodePath("../CharacterBody2D")
+
+[node name="Enemy" type="Sprite2D" parent="Enemy4"]
+scale = Vector2(1.18717, 1.18717)
+texture = ExtResource("6_xfbxg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy4"]
+shape = SubResource("CapsuleShape2D_nagv3")
+
+[node name="Enemy5" type="CharacterBody2D" parent="." node_paths=PackedStringArray("player")]
+position = Vector2(1030, 524)
+script = ExtResource("7_xu6n5")
+player = NodePath("../CharacterBody2D")
+
+[node name="Enemy" type="Sprite2D" parent="Enemy5"]
+scale = Vector2(1.18717, 1.18717)
+texture = ExtResource("6_xfbxg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy5"]
+shape = SubResource("CapsuleShape2D_nagv3")
+
+[node name="Enemy6" type="CharacterBody2D" parent="." node_paths=PackedStringArray("player")]
+position = Vector2(560, 559)
+script = ExtResource("7_xu6n5")
+player = NodePath("../CharacterBody2D")
+
+[node name="Enemy" type="Sprite2D" parent="Enemy6"]
+scale = Vector2(1.18717, 1.18717)
+texture = ExtResource("6_xfbxg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy6"]
+shape = SubResource("CapsuleShape2D_nagv3")
+
+[connection signal="timeout" from="CharacterBody2D/Timer" to="CharacterBody2D" method="_on_timer_timeout"]
